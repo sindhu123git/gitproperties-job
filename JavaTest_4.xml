@@ -1,0 +1,28 @@
+<project name="test" default="run">
+
+	<property file="JavaTest_4.properties"/>
+	
+    <target name="clean">
+       <delete dir="${build_dir}" />
+    </target>
+
+    <target name="compile" depends="clean">
+        <echo> Java related tasks </echo>
+         <mkdir dir="${build_dir}/${classes_dir}" />
+         <javac srcdir="${src_dir}" destdir="${build_dir}/${classes_dir}" />
+    </target>
+   
+   <target name="package" depends="compile">
+       <echo> Java package tasks </echo>
+       <jar basedir="${build_dir}/${classes_dir}" destfile="${build_dir}/${jar_dir}/${filename}.jar">
+          <manifest>
+             <attribute name="Main-Class" value="${run_class}"/>
+          </manifest>
+       </jar>
+   </target>
+   <target name="run" depends="package">
+      <echo> running jar file tasks </echo>
+      <java jar="${build_dir}/${jar_dir}/${filename}.jar" fork='true'/>
+   </target>
+
+</project>
